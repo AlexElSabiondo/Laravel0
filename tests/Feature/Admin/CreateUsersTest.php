@@ -149,6 +149,46 @@ class CreateUsersTest extends TestCase
     }
 
     /** @test */
+    public function the_twitter_is_valid()
+    {
+        $this->handleValidationExceptions();
+
+        $this->from('usuarios/crear')
+            ->post('usuarios', $this->withData([
+                'twitter' => 'alex'
+            ]))->assertSessionHasErrors(['twitter' => 'El campo twitter tiene que ser una url válida']);
+    }
+
+    /** @test */
+    public function the_twitter_must_exist()
+    {
+        $this->handleValidationExceptions();
+
+        $this->from('usuarios/crear')
+            ->post('usuarios', [
+                'first_name' => 'Pepe',
+                'last_name' => 'Pérez',
+                'email' => 'pepe@mail.es',
+                'password' => '123456',
+                'profession_id' => '',
+                'bio' => 'Programador de Laravel y Vue.js',
+                'role' => 'user',
+                'state' => 'active',
+            ])->assertSessionHasErrors(['twitter' => 'El campo twitter tiene que existir']);
+    }
+
+    /** @test */
+    public function the_bio_is_required()
+    {
+        $this->handleValidationExceptions();
+
+        $this->from('usuarios/crear')
+            ->post('usuarios', $this->withData([
+                'bio' => ''
+            ]))->assertSessionHasErrors(['bio' => 'El campo bio es obligatorio']);
+    }
+
+    /** @test */
     public function the_email_is_required()
     {
         $this->handleValidationExceptions();

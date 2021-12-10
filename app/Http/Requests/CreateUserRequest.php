@@ -60,6 +60,9 @@ class CreateUserRequest extends FormRequest
             'email.required' => 'El campo email es obligatorio',
             'password.required' => 'El campo contraseña es obligatorio',
             'email.unique' => 'Ese email ya existe en la BD',
+            'twitter.url' => 'El campo twitter tiene que ser una url válida',
+            'twitter.present' => 'El campo twitter tiene que existir',
+            'bio.required' => 'El campo bio es obligatorio',
         ];
     }
 
