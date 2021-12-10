@@ -22,6 +22,8 @@ Route::put('editar-perfil', 'ProfileController@update');
 Route::get('profesiones', 'ProfessionController@index')->name('professions.index');
 Route::delete('profesiones/{profession}', 'ProfessionController@destroy');
 
+Route::get('usuarios/papelera/{id}', 'UserController@restore')->name('users.restore');
+
 Route::get('habilidades', 'SkillController@index')->name('skills.index');
 
 Route::get('saludo/{name}/{nickname?}', 'WelcomeUserController');

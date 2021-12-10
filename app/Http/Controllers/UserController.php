@@ -39,6 +39,19 @@ class UserController extends Controller
         ]);
     }
 
+    public function restore($id)
+    {
+        $user = User::withTrashed()->where('id', '=', $id)->first();
+        $user_profile = UserProfile::withTrashed()->where('id', '=', $id)->first();
+
+        $user_profile->restore();
+        $user->restore();
+
+        $user->profile()->update($user_profile->getAttributes());
+
+        return redirect()->route('users.index');
+    }
+
     public function trashed()
     {
         $users = User::onlyTrashed()->paginate();

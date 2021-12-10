@@ -62,5 +62,6 @@ class DeleteUsersTest extends TestCase
             'id' => $user->id,
             'deleted_at' => null,
         ]);
+
     }
 }
