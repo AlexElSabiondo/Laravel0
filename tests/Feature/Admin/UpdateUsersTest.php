@@ -232,6 +232,22 @@ class UpdateUsersTest extends TestCase
     }
 
     /** @test */
+    public function the_twitter_field_is_optional()
+    {
+        $user = factory(User::class)->create();
+
+        $this->from('usuarios/' . $user->id . '/editar')
+            ->put('usuarios/' . $user->id, $this->withData([
+                'first_name' => 'Alejandro Magno',
+                'twitter' => ''
+            ]))->assertRedirect('usuarios/' . $user->id);
+
+        $this->assertDatabaseHas('users', [
+            'first_name' => 'Alejandro Magno',
+        ]);
+    }
+
+    /** @test */
     public function the_password_is_optional()
     {
         $oldPassword = 'CLAVE_ANTERIOR';
