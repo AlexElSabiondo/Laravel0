@@ -48,6 +48,15 @@ class UpdateUserRequest extends FormRequest
         ];
     }
 
+    public function messages()
+    {
+        return [
+            'bio.required' => 'El campo bio debe ser obligatorio',
+            'twitter.present' => 'El campo twitter debe existir',
+            'twitter.url' => 'El campo twitter debe ser una url válida'
+        ];
+    }
+
     public function updateUser(User $user)
     {
         $user->fill([

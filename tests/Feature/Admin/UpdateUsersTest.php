@@ -127,6 +127,61 @@ class UpdateUsersTest extends TestCase
     }
 
     /** @test */
+    public function the_twitter_is_valid()
+    {
+        $this->handleValidationExceptions();
+
+        $user = factory(User::class)->create();
+
+        $this->from('usuarios/' . $user->id . '/editar')
+            ->put('usuarios/' . $user->id, $this->withData([
+                'twitter' => 'alex'
+            ]))->assertRedirect('usuarios/' . $user->id . '/editar')
+            ->assertSessionHasErrors(['twitter' => 'El campo twitter debe ser una url válida']);
+
+        $this->assertEquals(1, User::count());
+    }
+
+    /** @test */
+    public function the_twitter_must_exist()
+    {
+        $this->handleValidationExceptions();
+
+        $user = factory(User::class)->create();
+
+        $this->from('usuarios/' . $user->id . '/editar')
+            ->put('usuarios/' . $user->id, [
+                'first_name' => 'Pepe',
+                'last_name' => 'Pérez',
+                'email' => 'pepe@mail.es',
+                'password' => '123456',
+                'profession_id' => '',
+                'bio' => 'Programador de Laravel y Vue.js',
+                'role' => 'user',
+                'state' => 'active',
+            ])->assertRedirect('usuarios/' . $user->id . '/editar')
+            ->assertSessionHasErrors(['twitter' => 'El campo twitter debe existir']);
+
+        $this->assertEquals(1, User::count());
+    }
+
+    /** @test */
+    public function the_bio_is_required()
+    {
+        $this->handleValidationExceptions();
+
+        $user = factory(User::class)->create();
+
+        $this->from('usuarios/' . $user->id . '/editar')
+            ->put('usuarios/' . $user->id, $this->withData([
+                'bio' => ''
+            ]))->assertRedirect('usuarios/' . $user->id . '/editar')
+            ->assertSessionHasErrors(['bio' => 'El campo bio debe ser obligatorio']);
+
+        $this->assertEquals(1, User::count());
+    }
+
+    /** @test */
     public function the_email_is_required()
     {
         $this->handleValidationExceptions();

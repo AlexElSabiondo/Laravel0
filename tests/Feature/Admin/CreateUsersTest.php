@@ -157,6 +157,8 @@ class CreateUsersTest extends TestCase
             ->post('usuarios', $this->withData([
                 'twitter' => 'alex'
             ]))->assertSessionHasErrors(['twitter' => 'El campo twitter tiene que ser una url válida']);
+
+        $this->assertDatabaseEmpty('users');
     }
 
     /** @test */
@@ -175,6 +177,8 @@ class CreateUsersTest extends TestCase
                 'role' => 'user',
                 'state' => 'active',
             ])->assertSessionHasErrors(['twitter' => 'El campo twitter tiene que existir']);
+
+        $this->assertDatabaseEmpty('users');
     }
 
     /** @test */
@@ -186,6 +190,8 @@ class CreateUsersTest extends TestCase
             ->post('usuarios', $this->withData([
                 'bio' => ''
             ]))->assertSessionHasErrors(['bio' => 'El campo bio es obligatorio']);
+
+        $this->assertDatabaseEmpty('users');
     }
 
     /** @test */
